@@ -38,6 +38,9 @@ class TuringMachine:
         self.tape.append(blank)
         print(self.tape)
 
+    def transFuncQ1(self):
+        pass
+
     def transFuncQ2(self):
         if self.state == 'q0':
             if self.tape[self.head] == '#':
@@ -298,6 +301,10 @@ class TuringMachine:
             self.setup()
             while not self.accepted:
                 self.transFuncQ4()
+        elif self.question_number == 1:
+            self.setup()
+            while not self.accepted:
+                self.transFuncQ1()
 
 
 turmach = TuringMachine(4, 'aaabbbccccccccc')
