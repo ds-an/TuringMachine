@@ -184,12 +184,17 @@ class TuringMachine:
         elif self.state == 'q3':
             if self.tape[self.head] == 'a' or \
                     self.tape[self.head] == 'b' or \
+                    self.tape[self.head] == 'c' or \
                     self.tape[self.head] == 'Y' or \
                     self.tape[self.head] == 'Z':
                 self.move_head_left()
             elif self.tape[self.head] == 'X':
                 self.move_head_right()
                 self.state = 'q0'
+            elif self.tape[self.head] == blank:
+                self.state = 'qf'
+                self.accepted = True
+                print(f"The input is accepted")
             else:
                 print(f"Input is rejected")
                 sys.exit()
@@ -198,10 +203,10 @@ class TuringMachine:
             if self.tape[self.head] == 'Y' or \
                     self.tape[self.head] == 'Z':
                 self.move_head_right()
-            elif self.tape[self.head] == blank:
-                self.state = 'qf'
-                self.accepted = True
-                print(f"The input is accepted")
+            # elif self.tape[self.head] == blank:
+            #     self.state = 'qf'
+            #     self.accepted = True
+            #     print(f"The input is accepted")
             else:
                 print(f"Input is rejected")
                 sys.exit()
@@ -217,6 +222,6 @@ class TuringMachine:
                 self.transFuncQ3()
 
 
-turmach = TuringMachine(3, 'aabbc')
+turmach = TuringMachine(3, 'aabbcc')
 
 turmach.run()
