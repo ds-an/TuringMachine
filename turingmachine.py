@@ -21,7 +21,9 @@ class TuringMachine:
     def setup(self):
         self.accepted = False
         input_list = list(self.input_str)
-        if self.question_number == 1 or self.question_number == 2:
+        if self.question_number == 1:
+            self.alphabet = ['1', '#', '0']
+        if self.question_number == 2:
             self.alphabet = ['a', '#', 'b']
         if self.question_number == 3 or self.question_number == 4:
             self.alphabet = ['a', 'b', 'c']
