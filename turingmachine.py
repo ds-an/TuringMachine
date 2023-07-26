@@ -21,9 +21,9 @@ class TuringMachine:
     def setup(self):
         self.accepted = False
         input_list = list(self.input_str)
-        if self.question_number == 2:
+        if self.question_number == 1 or self.question_number == 2:
             self.alphabet = ['a', '#', 'b']
-        if self.question_number == 3:
+        if self.question_number == 3 or self.question_number == 4:
             self.alphabet = ['a', 'b', 'c']
         for i in input_list:
             if i not in self.alphabet:
@@ -211,6 +211,78 @@ class TuringMachine:
                 print(f"Input is rejected")
                 sys.exit()
 
+    def transFuncQ4(self):
+        if self.state == 'q0':
+            if self.tape[self.head] == 'a':
+                self.tape[self.head] = 'X'
+                self.move_head_right()
+                self.state = 'q1'
+            elif self.tape[self.head] == 'b':
+                self.move_head_right()
+                self.state = 'q5'
+            else:
+                print(f"Input is rejected")
+                sys.exit()
+
+        elif self.state == 'q1':
+            if self.tape[self.head] == 'a':
+                self.move_head_right()
+            elif self.tape[self.head] == 'b':
+                self.tape[self.head] = 'Y'
+                self.move_head_right()
+                self.state = 'q2'
+            elif self.tape[self.head] == 'Z':
+                self.move_head_left()
+                self.state = 'q4'
+            else:
+                print(f"Input is rejected")
+                sys.exit()
+
+        elif self.state == 'q2':
+            if self.tape[self.head] == 'b' or self.tape[self.head] == 'Z':
+                self.move_head_right()
+            elif self.tape[self.head] == 'c':
+                self.tape[self.head] = 'Z'
+                self.move_head_left()
+                self.state = 'q3'
+            else:
+                print(f"Input is rejected")
+                sys.exit()
+
+        elif self.state == 'q3':
+            if self.tape[self.head] == 'b' or self.tape[self.head] == 'Z':
+                self.move_head_left()
+            elif self.tape[self.head] == 'Y':
+                self.move_head_right()
+                self.state = 'q1'
+            else:
+                print(f"Input is rejected")
+                sys.exit()
+
+        elif self.state == 'q4':
+            if self.tape[self.head] == 'a':
+                self.move_head_left()
+            elif self.tape[self.head] == 'Y':
+                self.tape[self.head] = 'b'
+                self.move_head_left()
+            elif self.tape[self.head] == 'X':
+                self.move_head_right()
+                self.state = 'q0'
+            else:
+                print(f"Input is rejected")
+                sys.exit()
+
+        elif self.state == 'q5':
+            if self.tape[self.head] == 'Z' or self.tape[self.head] == 'b':
+                self.move_head_right()
+            elif self.tape[self.head] == blank:
+                self.state = 'qf'
+                self.accepted = True
+                print(f"The input is accepted")
+            else:
+                print(f"Input is rejected")
+                sys.exit()
+
     def run(self):
         if self.question_number == 2:
             self.setup()
@@ -220,8 +292,12 @@ class TuringMachine:
             self.setup()
             while not self.accepted:
                 self.transFuncQ3()
+        elif self.question_number == 4:
+            self.setup()
+            while not self.accepted:
+                self.transFuncQ4()
 
 
-turmach = TuringMachine(3, 'aabbcc')
+turmach = TuringMachine(4, 'aaabbbccccccccc')
 
 turmach.run()
