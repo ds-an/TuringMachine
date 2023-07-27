@@ -40,6 +40,7 @@ class TuringMachine:
 
     def transFuncQ1(self):
         pass
+        #Настин код здесь :)
 
     def transFuncQ2(self):
         if self.state == 'q0':
