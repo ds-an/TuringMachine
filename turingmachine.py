@@ -29,8 +29,7 @@ class TuringMachine:
             self.alphabet = ['a', 'b', 'c']
         for i in input_list:
             if i not in self.alphabet:
-                print(f"Error: character {i} in input not in the alphabet"
-                      f" for Q2")
+                print(f"Error: character {i} in input not in the alphabet")
                 sys.exit()
         self.state = 'q0'
         self.head = 0
