@@ -38,7 +38,185 @@ class TuringMachine:
         print(self.tape)
 
     def transFuncQ1(self):
-        pass
+
+        ## check if input is valid
+        if self.state == "q0":
+            if self.tape[self.head] == "1":
+                # self.tape[self.head] = "X"
+                self.move_head_right()
+                self.state = "q1"
+            else:
+                print(f"q0 = Input is rejected")
+                sys.exit()
+
+        elif self.state == "q1":
+            if self.tape[self.head] == "1":
+                # self.tape[self.head] = "X"
+                self.move_head_right()
+            elif self.tape[self.head] == "#":
+                self.move_head_right()
+                self.state = "q2"
+            else:
+                print(f"q1 = Input is rejected")
+                sys.exit()
+
+        elif self.state == "q2":
+            if self.tape[self.head] == "0":
+                self.move_head_right()
+            elif self.tape[self.head] == " ":
+                self.move_head_left()
+                if (self.tape[self.head] == "0"):
+                    self.tape[self.head] = "B"
+                    self.move_head_left()
+                    self.state = "q3"
+            else:
+                print(f"q2 = Input is rejected")
+                sys.exit()
+
+        ## starting from q3 we check the sum of left and right sides
+
+        elif self.state == "q3":
+            if self.tape[self.head] == "0":
+                self.move_head_left()
+            elif self.tape[self.head] == "#":
+                self.move_head_left()
+            elif self.tape[self.head] == "1":
+                self.tape[self.head] = "X"
+                self.move_head_left()
+                self.state = "q3.1"
+            else:
+                print(f"q3 = Input is rejected")
+                sys.exit()
+
+        elif self.state == "q3.1":
+            if self.tape[self.head] == "1":
+                self.tape[self.head] = "X"
+                self.move_head_right()
+            elif self.tape[self.head] == "0":
+                self.move_head_right()
+            elif self.tape[self.head] == "X":
+                self.move_head_right()
+            elif self.tape[self.head] == "#":
+                self.move_head_right()
+            elif self.tape[self.head] == "B":
+                self.move_head_left()
+                self.state = "q4"
+            else:
+                print(f"q3.1 = Input is rejected")
+                sys.exit()
+
+        # this blocks will repeate
+        elif self.state == "q4":
+            if self.tape[self.head] == "0":
+                self.tape[self.head] = "B"
+                self.move_head_left()
+                self.state = "q4.1"
+                # self.state = "q5"
+            elif self.tape[self.head] == "#":
+                self.move_head_left()
+                self.state = "end"
+            else:
+                self.move_head_left()
+                self.state = "end"
+                # print(f"q4 = Input is rejected")
+                # sys.exit()
+
+
+        elif self.state == "q4.1":
+            if self.tape[self.head] == "0":
+                self.move_head_left()
+            elif self.tape[self.head] == "#":
+                self.move_head_left()
+                self.state = "q5"
+            else:
+                print(f"q4.1 = Input is rejected")
+                sys.exit()
+
+        elif self.state == "q5":
+            # if self.tape[self.head] == "0":
+            #     self.move_head_left()
+            if self.tape[self.head] == "#":
+                self.move_head_left()
+                self.state = "q5.2"
+            elif self.tape[self.head] == "Y":
+                self.move_head_right()
+            elif self.tape[self.head] == "X":
+                self.tape[self.head] = "Y"
+                self.move_head_left()
+                self.state = "q5.1"
+            elif self.tape[self.head] == "1" or self.tape[self.head] == " ":
+                self.move_head_right()
+                self.state = "q5.2"
+            else:
+                print(f"q5 = Input is rejected")
+                sys.exit()
+
+        elif self.state == "q5.1":
+            if self.tape[self.head] == "1":
+                self.tape[self.head] = "Y"
+                self.move_head_right()
+                self.state = "q5"
+            elif self.tape[self.head] == "X":
+                self.move_head_left()
+            elif self.tape[self.head] == "Y":
+                self.move_head_left()
+            elif self.tape[self.head] == " ":
+                self.move_head_right()
+                self.state = "q5.3"
+            else:
+                print(f"q5.1 = Input is rejected")
+                sys.exit()
+
+
+        ## change all Y to X
+        elif self.state == "q5.2":
+            if self.tape[self.head] == "Y":
+                self.tape[self.head] = "X"
+                self.move_head_left()
+            elif self.tape[self.head] == "B":
+                self.move_head_left()
+                self.state = "q4"
+            else:
+                self.move_head_right()
+
+
+        elif self.state == "q5.3":
+            if self.tape[self.head] == "#":
+                self.move_head_left()
+                self.state = "end"
+            else:
+                print(f"q5.3 = Input is rejected")
+                sys.exit()
+
+        elif self.state == "end":
+            if self.tape[self.head] == "X":
+                self.move_head_left()
+            elif self.tape[self.head] == " ":
+                self.accepted = True
+                print(f"Input is accepted on state end")
+            else:
+                print(f"End function: Input is rejected")
+                sys.exit()
+
+        # elif self.state == "back_to_hash":
+        #     if self.tape[self.head] == "X":
+        #         self.move_head_left()
+        #     elif self.tape[self.head] == "#":
+        #         self.move_head_left()
+        #         self.state = "back_to_start"
+        #     else:
+        #         print(f"Input is rejected")
+        #         sys.exit()
+
+        # elif self.state == "back_to_start":
+        #     if self.tape[self.head] == "X":
+        #         self.move_head_left()
+        #     elif self.tape[self.head] == " ":
+        #         self.move_head_right()
+        #         self.state = "start"
+        #     else:
+        #         print(f"Input is rejected")
+        #         sys.exit()
         # Настин код здесь :)
 
     def transFuncQ2(self):
@@ -306,6 +484,6 @@ class TuringMachine:
                 self.transFuncQ1()
 
 
-turmach = TuringMachine(3, 'aaaabbbbcccc')
+turmach = TuringMachine(1, '1111111111111111#0000')
 
 turmach.run()
